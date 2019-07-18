@@ -17,9 +17,9 @@ abstract class Model
     /**
      * @param DB $db Class for working with DB
      */
-    public function __construct(DB $db)
+    public function __construct()
     {
-        $this->db = $db;
+        $this->db = DB::getInstance();
     }
 
     /**
@@ -38,8 +38,8 @@ abstract class Model
     public function getOne(int $id)
     {
         $tableName = $this->getTableName();
-        $sql = "SELECT * FROM {$tableName} WHERE id = {$id}";
-        return $this->db->find($sql);
+        $sql = "SELECT * FROM {$tableName} WHERE id = :id";
+        return $this->db->find($sql, [':id' => $id], get_class($this));
     }
 
     /**
@@ -51,6 +51,43 @@ abstract class Model
     {
         $tableName = $this->getTableName();
         $sql = "SELECT * FROM {$tableName}";
-        return $this->db->findAll($sql);
+        return $this->db->findAll($sql, [], get_class($this));
+    }
+
+    public function saveInDB(int $id = null)
+    {
+        // Приготавливаем параметры и переменные для интерполяции
+        $params = [];
+        if (!is_null($id)) {
+            $params[':id'] = $id;
+        }
+        $keysWithoutColon = [];
+        $keyValuePairs = [];
+        foreach ($this as $key => $value) {
+            if ($key !== 'db' AND $key !== 'id') {
+                $params[":{$key}"] = $value;
+                $keysWithoutColon[] = $key;
+                $keyValuePairs[] = "{$key} = :{$key}";
+            }
+        }
+        $keysWithoutColon = implode(', ', $keysWithoutColon);
+        $keysWithColon = implode(', ', array_keys($params));
+        $keyValuePairs = implode(', ', $keyValuePairs);
+        $tableName = $this->getTableName();
+
+        // Подготавливаем и выполняем запрос
+        if (is_null($id)) {
+            $sql = "INSERT INTO {$tableName} ({$keysWithoutColon}) VALUES ($keysWithColon)";
+        } else {
+            $sql = "UPDATE {$tableName} SET {$keyValuePairs} WHERE id = :id";
+        }
+        return $this->db->execute($sql, $params);
+    }
+
+    public function deleteFromDB(int $id)
+    {
+        $tableName = $this->getTableName();
+        $sql = "DELETE FROM {$tableName} WHERE id = :id";
+        $this->db->execute($sql, [':id' => $id]);
     }
 }

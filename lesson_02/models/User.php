@@ -4,12 +4,17 @@ namespace App\models;
 
 class User extends Model
 {
-    protected $id;
-    protected $username;
-    protected $passwordHash;
+    public $id;
+    public $username;
+    public $passwordHash;
 
     protected function getTableName()
     {
         return 'users';
+    }
+
+    public function setPasswordHash(string $password)
+    {
+        $this->passwordHash = password_hash($password, $algo = PASSWORD_DEFAULT);
     }
 }
