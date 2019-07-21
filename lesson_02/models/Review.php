@@ -4,10 +4,10 @@ namespace App\models;
 
 class Review extends Model
 {
-    protected $id;
-    protected $productId;
-    protected $authorName;
-    protected $text;
+    public $id;
+    public $productId;
+    public $authorName;
+    public $text;
 
     protected function getTableName()
     {

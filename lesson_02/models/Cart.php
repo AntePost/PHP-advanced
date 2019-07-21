@@ -8,19 +8,19 @@ namespace App\models;
  */
 class Cart extends Model
 {
-    protected $userId;
-    protected $productId;
-    protected $quantity;
+    public $userId;
+    public $productId;
+    public $quantity;
 
     protected function getTableName()
     {
-        return 'cart';
+        return 'carts';
     }
 
     public function getOne(int $userId)
     {
         $tableName = $this->getTableName();
-        $sql = "SELECT * FROM {$tableName} WHERE user_id = {$userId}";
-        return $this->db->find($sql);
+        $sql = "SELECT * FROM {$tableName} WHERE userId = :id";
+        return $this->db->findAll($sql, [':id' => $userId], get_class($this));
     }
 }
