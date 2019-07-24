@@ -84,10 +84,10 @@ abstract class Model
         return $this->db->execute($sql, $params);
     }
 
-    public function deleteFromDB(int $id)
+    public function deleteFromDB()
     {
         $tableName = $this->getTableName();
         $sql = "DELETE FROM {$tableName} WHERE id = :id";
-        $this->db->execute($sql, [':id' => $id]);
+        $this->db->execute($sql, [':id' => $this->id]);
     }
 }

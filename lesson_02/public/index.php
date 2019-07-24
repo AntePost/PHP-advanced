@@ -37,12 +37,24 @@ echo '<br>';
 var_dump($cart->getAll());*/
 
 // Выполнение create, update и delete запросов к БД
-/* $user = new User();
-$user->username = 'John';
+/*$user = new User();
+$user->username = 'Jack';
 $user->setPasswordHash('password');
 $user->saveInDB();
 
 $user->username = 'Jack';
 $user->saveInDB(5);
 
-$user->deleteFromDB(5); */
+$user->id = '5';
+$user->deleteFromDB(); */
+
+// Вызов контроллера
+$controllerName = $_GET['contr'] ?: 'user';
+$actionName = $_GET['action'];
+
+$controllerClass = 'App\\controllers\\' . ucfirst($controllerName) . 'Controller';
+
+if (class_exists($controllerClass)) {
+    $controller = new $controllerClass();
+    $controller->run($actionName);
+}

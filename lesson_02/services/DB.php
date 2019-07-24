@@ -63,7 +63,7 @@ class DB
     {
         $PDOStatement = $this->getConnect()->prepare($sql);
         $PDOStatement->execute($params);
-        $PDOStatement->setFetchMode(\PDO::FETCH_CLASS, $className);
+        // $PDOStatement->setFetchMode(\PDO::FETCH_CLASS, $className);
         return $PDOStatement;
     }
 
