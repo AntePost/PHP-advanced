@@ -35,11 +35,11 @@ abstract class Model
      * @param int $id ID of table row in DB
      * @return array
      */
-    public function getOne(int $id)
+    public static function getOne(int $id)
     {
-        $tableName = $this->getTableName();
+        $tableName = static::getTableName();
         $sql = "SELECT * FROM {$tableName} WHERE id = :id";
-        return $this->db->find($sql, [':id' => $id], get_class($this));
+        return DB::getInstance()->find($sql, [':id' => $id], get_called_class());
     }
 
     /**
@@ -47,11 +47,11 @@ abstract class Model
      * 
      * @return array
      */
-    public function getAll()
+    public static function getAll()
     {
-        $tableName = $this->getTableName();
+        $tableName = static::getTableName();
         $sql = "SELECT * FROM {$tableName}";
-        return $this->db->findAll($sql, [], get_class($this));
+        return DB::getInstance()->findAll($sql, [], get_called_class());
     }
 
     public function saveInDB(int $id = null)

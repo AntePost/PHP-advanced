@@ -3,14 +3,17 @@
 include $_SERVER['DOCUMENT_ROOT'] .
 '/lesson_02/config/config.php';
 include $PATH_TO_SERVICES . 'Autoload.php';
+include $PATH_TO_VENDOR . 'autoload.php';
 
 use App\services\Autoload as Autoload;
+//use App\vendor\Autoload as VAutoload;
 use App\services\DB as DB;
 use App\models\Product as Product;
 use App\models\User as User;
 use App\models\Review as Review;
 use App\models\Cart as Cart;
 
+// spl_autoload_register([new Autoload(), 'loadClass']);
 spl_autoload_register([new Autoload(), 'loadClass']);
 
 // Выводит полученные объекты (cart через getOne выводит полную корзину пользователя)
@@ -55,6 +58,6 @@ $actionName = $_GET['action'];
 $controllerClass = 'App\\controllers\\' . ucfirst($controllerName) . 'Controller';
 
 if (class_exists($controllerClass)) {
-    $controller = new $controllerClass();
+    $controller = new $controllerClass(new \App\services\renders\TwigTemplateRenderer());
     $controller->run($actionName);
 }
