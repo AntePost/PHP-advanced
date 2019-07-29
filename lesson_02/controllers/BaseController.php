@@ -6,10 +6,12 @@ abstract class BaseController
     protected $defaultAction = 'index';
     protected $action;
     protected $renderer;
+    protected $request;
 
-    public function __construct($renderer)
+    public function __construct($renderer, $request)
     {
         $this->renderer = $renderer;
+        $this->request = $request;
     }
 
     public function run($action)
@@ -37,5 +39,10 @@ abstract class BaseController
     public function renderTemplate($template, $params = [])
     {
         return $this->renderer->renderTemplate($template, $params);
+    }
+
+    protected function getId()
+    {
+        return $this->request->id;
     }
 }

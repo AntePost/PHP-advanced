@@ -2,8 +2,9 @@
 namespace App\controllers;
 
 use App\models\Product as Product;
+use App\models\repositories\ProductRepository;
 
-class productController extends BaseController
+class ProductController extends BaseController
 {
     protected $defaultAction = 'products';
 
@@ -11,7 +12,7 @@ class productController extends BaseController
     {
         $productId = $_GET['id'];
         $params = [
-            'product' => Product::getOne($productId),
+            'product' => (new ProductRepository())->getOne($productId),
             'id' => $productId
         ];
 
@@ -26,7 +27,7 @@ class productController extends BaseController
     public function productsAction()
     {
         $params = [
-            'products' => Product::getAll()
+            'products' => (new ProductRepository())->getAll()
         ];
 
         echo $this->render('products', $params);

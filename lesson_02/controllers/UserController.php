@@ -2,6 +2,7 @@
 namespace App\controllers;
 
 use App\models\User as User;
+use App\models\repositories\UserRepository;
 
 class UserController extends BaseController
 {
@@ -9,9 +10,9 @@ class UserController extends BaseController
 
     public function userAction()
     {
-        $userId = $_GET['id'];
+        $userId = $this->getId();
         $params = [
-            'user' => User::getOne($userId),
+            'user' => (new UserRepository())->getOne($userId),
             'id' => $userId
         ];
 
@@ -26,7 +27,7 @@ class UserController extends BaseController
     public function usersAction()
     {
         $params = [
-            'users' => User::getAll()
+            'users' => (new UserRepository())->getAll()
         ];
 
         echo $this->render('users', $params);
