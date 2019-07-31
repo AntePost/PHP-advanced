@@ -1,7 +1,7 @@
 <?php
 
 include $_SERVER['DOCUMENT_ROOT'] .
-'/lesson_02/config/config.php';
+'./../config/config.php';
 include $PATH_TO_SERVICES . 'Autoload.php';
 include $PATH_TO_VENDOR . 'autoload.php';
 
@@ -9,7 +9,8 @@ use App\services\Autoload as Autoload;
 //use App\vendor\Autoload as VAutoload;
 use App\services\DB as DB;
 use App\models\Product as Product;
-use App\models\User as User;
+use App\models\entities\User as User;
+use App\models\repositories\UserRepository as UserRepository;
 use App\models\Review as Review;
 use App\models\Cart as Cart;
 
@@ -40,24 +41,38 @@ echo '<br>';
 var_dump($cart->getAll());*/
 
 // Выполнение create, update и delete запросов к БД
+// Create
 /*$user = new User();
-$user->username = 'Jack';
+$userRepo = new UserRepository();
+$user->username = 'Jimbo';
 $user->setPasswordHash('password');
-$user->saveInDB();
+$userRepo->saveInDB($user);*/
 
-$user->username = 'Jack';
-$user->saveInDB(5);
+// Update
+/*$user = new User();;
+$userRepo = new UserRepository();
+$user->username = 'Jonah';
+$user->id = '3';
+$userRepo->saveInDB($user);*/
 
-$user->id = '5';
-$user->deleteFromDB(); */
+// Delete
+/*$user = new User();
+$userRepo = new UserRepository();
+$user->id = '3';
+$userRepo->deleteFromDB($user);*/
+
+// Проверка метода getKey()
+$request = new \App\services\Request();
+var_dump($request->getKey('get', 'id'));
 
 // Вызов контроллера
-$controllerName = $_GET['contr'] ?: 'user';
-$actionName = $_GET['action'];
+
+$controllerName = $request->controllerName ?: 'user';
+$actionName = $request->actionName;
 
 $controllerClass = 'App\\controllers\\' . ucfirst($controllerName) . 'Controller';
 
 if (class_exists($controllerClass)) {
-    $controller = new $controllerClass(new \App\services\renders\TwigTemplateRenderer());
+    $controller = new $controllerClass(new \App\services\renders\TwigTemplateRenderer(), $request);
     $controller->run($actionName);
 }
