@@ -2,7 +2,7 @@
 
 include $_SERVER['DOCUMENT_ROOT'] .
 './../config/config.php';
-include $PATH_TO_SERVICES . 'Autoload.php';
+// include $PATH_TO_SERVICES . 'Autoload.php';
 include $PATH_TO_VENDOR . 'autoload.php';
 
 use App\services\Autoload as Autoload;
@@ -15,7 +15,7 @@ use App\models\Review as Review;
 use App\models\Cart as Cart;
 
 // spl_autoload_register([new Autoload(), 'loadClass']);
-spl_autoload_register([new Autoload(), 'loadClass']);
+// spl_autoload_register([new Autoload(), 'loadClass']);
 
 // Выводит полученные объекты (cart через getOne выводит полную корзину пользователя)
 /* $product = new Product();
@@ -63,7 +63,7 @@ $userRepo->deleteFromDB($user);*/
 
 // Проверка метода getKey()
 $request = new \App\services\Request();
-var_dump($request->getKey('get', 'id'));
+//var_dump($request->getKey('get', 'id'));
 
 // Вызов контроллера
 

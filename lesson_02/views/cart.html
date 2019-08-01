@@ -1,6 +1,23 @@
-{% for cart in params.cart %}
-    <span>User ID: {{ cart.userId }}</span>
-    <span>Product ID: {{ cart.productId }}</span>
-    <span>Quantity: {{ cart.quantity }}</span>
+{% if params.cart %}
+    {% for cart in params.cart %}
+        <span>Name: {{ cart.name }}</span>
+        <span>Price: {{ cart.price }}</span>
+        <span>Quantity: {{ cart.quantity }}</span>
+        <a href="/cart/addCart?id={{ cart.id }}">+</a>
+        <a href="/cart/removeCart?id={{ cart.id }}">-</a>
+        <hr>
+    {% endfor %}
+{% else %}
+    <span>Cart is empty</span>
     <hr>
-{% endfor %}
+{% endif %}
+<a href="/cart/clearCart">Clear cart</a>
+{% if params.cart %}
+<hr>
+<form action="/order/makeOrder" method="post">
+    <input type="text" name="username">
+    <input type="text" name= "contact">
+    <input type="text" name="address">
+    <input type="submit">
+</form>
+{% endif %}
