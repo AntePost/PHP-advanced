@@ -45,4 +45,12 @@ abstract class BaseController
     {
         return $this->request->id;
     }
+
+    protected function redirect($path = '')
+    {
+        if (empty($path)) {
+            $path = $_SERVER['HTTP_REFERER'];
+        }
+        return header('Location:' . $path);
+    }
 }
