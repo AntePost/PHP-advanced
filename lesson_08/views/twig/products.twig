@@ -1,0 +1,12 @@
+{% extends 'layouts/main.twig' %}
+
+{% block title %}Products{% endblock %}
+
+{% block body %}
+    {% for product in products %}
+        <p>{{ product.name }}</p>
+        <p>{{ product.price }}</p>
+        <a href="/cart/addToCart?id={{ product.id }}">Add to cart</a>
+        <hr>
+    {% endfor %}
+{% endblock %}

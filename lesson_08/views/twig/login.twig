@@ -1,0 +1,16 @@
+{% extends 'layouts/main.twig' %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+    {% if not user %}
+        <form action="/login/auth" method="post">
+            <input type="text" name="username">
+            <input type="text" name="password">
+            <input type="submit">
+        </form>
+    {% else %}
+        <a href="/login/logout?id={{user.id}}">Logout</a>
+    {% endif %}
+    <p>{{ loginMessage }}</p>
+{% endblock %}
