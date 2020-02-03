@@ -1,0 +1,29 @@
+{% extends 'layouts/main.twig' %}
+
+{% block title %}Add user{% endblock %}
+
+{% block body %}
+    {% for user in users %}
+        <a href="/user/user?id={{user.id}}">
+            {{user.username}}
+        </a> <br>
+        {% if user.is_admin == 0 %}
+            <a href="/user/deleteUser?id={{ user.id }}">
+                Delete
+            </a>
+        {% endif %}
+        <hr>
+    {% else %}
+        <hr>
+        <p>There are no users</p>
+    {% endfor %}
+
+    <form action="/user/addUser" method="post">
+        <p>Add new user</p>
+        <input type="text" name="username">
+        <input type="password" name="password">
+        <input type="checkbox" id="admin" name="admin" checked>
+        <label for="admin">Admin</label>
+        <input type="submit">
+    </form>
+{% endblock %}

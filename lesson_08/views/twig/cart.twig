@@ -1,0 +1,29 @@
+{% extends 'layouts/main.twig' %}
+
+{% block title %}Cart{% endblock %}
+
+{% block body %}
+{% if cart %}
+    {% for cart in cart %}
+        <span>Name: {{ cart.name }}</span>
+        <span>Price: {{ cart.price }}</span>
+        <span>Quantity: {{ cart.quantity }}</span>
+        <a href="/cart/addToCart?id={{ cart.id }}">+</a>
+        <a href="/cart/removeFromCart?id={{ cart.id }}">-</a>
+        <hr>
+    {% endfor %}
+{% else %}
+    <span>Cart is empty</span>
+    <hr>
+{% endif %}
+{% if cart %}
+<a href="/cart/clearCart">Clear cart</a>
+<hr>
+<form action="/order/makeOrder" method="post">
+    <input type="text" name="username">
+    <input type="text" name="contact">
+    <input type="text" name="address">
+    <input type="submit">
+</form>
+{% endif %}
+{% endblock %}
